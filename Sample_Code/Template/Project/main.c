@@ -178,12 +178,41 @@ void DataFlash_Test(void)
 		}
 		send_UARTString("\r\n");
 
-		send_UARTString("DATAFLASH_ARRAY TEST\r\n");
+		send_UARTString("DATAFLASH_BYTE TEST\r\n");
 		Write_DATAFLASH_BYTE (0x3F00,cnt);
 		res = read_APROM_BYTE(0x3F00);
 		
 		send_UARTHex(res);
+		send_UARTString("\r\n\r\n");
+
+		for (i = 0 ; i < 50 ; i++)
+		{
+			buffer[i] = 0x00;		
+		}
+
+		send_UARTString("SPROM_DATAFLASH_ARRAY TEST\r\n");
+		
+		Write_SPROM_DATAFLASH_ARRAY(1,ArrayData,50);
+
+		Read_SPROM_DATAFLASH_ARRAY(1,buffer,50);
+
+		for (i = 0 ; i < 50 ; i++)
+		{
+			send_UARTHex(buffer[i]);
+			send_UARTString(",");
+	        if ((i+1)%8 ==0)
+	        {
+	            send_UARTString("\r\n");
+	        }		
+		}
 		send_UARTString("\r\n");
+
+		send_UARTString("Read_SPROM_BYTE TEST\r\n");
+		res = Read_SPROM_BYTE(1);
+		
+		send_UARTHex(res);
+		send_UARTString("\r\n");
+		
 		
 		cnt++;
 		send_UARTString("\r\n");
